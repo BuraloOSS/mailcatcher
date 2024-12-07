@@ -1,0 +1,19 @@
+= Build Instructions
+Brian Matthews <brian.matthews@buralotech.com>
+:icons: font
+
+The Helm Chart was built using the following steps:
+
+. Package the Helm chart into a `.tgz` archive:
++
+[source,console]
+----
+$ helm package chart
+----
+
+. Push the packaged Helm chart to a public OCI registry:
++
+[source,console]
+----
+$ helm push mailcatcher-0.1.0.tgz oci://registry-1.docker.io/bmatthews68
+----

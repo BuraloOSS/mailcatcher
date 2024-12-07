@@ -1,0 +1,13 @@
+apiVersion: v2
+description: Mailcatcher
+name: mailcatcher
+version: 0.1.0
+appVersion: 0.10.0
+type: application
+keywords:
+  - mailcatcher
+  - mail
+maintainers:
+  - name: Brian Matthews
+    email: brian.matthews@buralotech.com
+icon: https://mailcatcher.me/logo.png

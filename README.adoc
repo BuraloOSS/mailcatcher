@@ -1,0 +1,89 @@
+= MailCatcher Helm Chart
+Brian Matthews <brian.matthews@buralotech.com>
+:icons: font
+:chart-version: 0.1.0
+
+This repository contains the artifacts required to build a Helm Chart for https://mailcatcher.me/[MailCatcher] allowing you to run a simple SMTP server for testing purposes in your development and testing environments.
+
+== Prerequisites
+
+* Kubernetes 1.23+
+
+* Helm 3.8.0+
+
+== Usage
+
+You can consume this chart in any of the following ways:
+
+* Install the chart with the release name `mc-release`:
++
+[source,console]
+----
+$ helm install mc-release oci://registry-1.docker.io/bmatthews68/mailcatcher
+----
+
+* You can download the chart with to the current directory as `mailcatcher-{chart-version}.tgz`:
++
+[source,console,subs="+attributes"]]
+----
+$ helm pull oci://registry-1.docker.io/bmatthews68/mailcatcher --version {chart-version}
+----
+
+* Add as a dependency to another chart:
++
+[source,yaml,subs="+attributes"]
+----
+dependencies:
+  - name: "mailcatcher"
+    version: "{chart-version}"
+    repository: "oci://registry-1.docker.io/bmatthews68"
+----
+
+== Parameters
+
+You can use the following parameters to configure the chart:
+
+[%header,cols="m,m,m,a"]
+|===
+| Name                                       | Type    | Default            | Description
+| affinity                                   | object  | {}                 | Assign custom affinity rules.
+| autoscaling.enabled                        | int     | false              | Enable autoscaling.
+| autoscaling.maxReplicas                    | int     | 100                | Maximum number of pods.
+| autoscaling.minReplicas                    | int     | 1                  | Minimum number of pods.
+| autoscaling.targetCPUUtilizationPercentage | int     | 80                 | Target CPU utilization percentage.
+| fullnameOverride                           | string  | ""                 | Provide a name to substitute for the full names of resources.
+| image.repository                           | string  | "sj26/mailcatcher" | Image repository.
+| image.pullPolicy                           | string  | "IfNotPresent"     | Image pull policy.
+| image.tag                                  | string  | "v0.10.0"          | Image tag.
+| imagePullSecrets                           | list    | []                 | Reference to one or more secrets to be used when pulling images.
+| ingress.annotations                        | object  | {}                 | Annotations to add to the Ingress.
+| ingress.className                          | string  | ""                 | Ingress class name.
+| ingress.enabled                            | boolean | false              | Enable creation of Ingress.
+| ingress.hosts                              | list    |                    | List of hosts containing a list of paths.
+| ingress.hosts[0].host                      | string  | ""                 | Name of first host.
+| ingress.hosts[0].paths[0].path             | list    | "/"                | Value for first path of first host.
+| ingress.hosts[0].paths[0].pathType         | string  | "Prefix"           | Type for first path of first host.
+| ingress.tls                                | list    | []                 | Secrets to use for TLS configuration.
+| nameOverride                               | string  | ""                 | Provide a name in place of node for `app:` labels
+| nodeSelector                               | object  | {}                 | Define which nodes the pods are scheduled on.
+| podAnnotations                             | object  | {}                 | Annotations to add to the pod.
+| podLabels                                  | object  | {}                 | Labels to add to the pod.
+| podSecurityContext                         | object  | {}                 | SecurityContext holds pod-level security attributes and common container settings. This defaults to non-root user with uid 1000 and gid 1000.
+| replicaCount                               | int     | 1                  | Number of replicas for the pod.
+| resources                                  | object  | {}                 | Resource limits & requests.
+| securityContext                            | object  | {}                 | SecurityContext settings for the container.
+| serviceAccount.annotations                 | object  | {}                 | Annotations to add to the service account.
+| serviceAccount.automount                   | boolean | true               | Indicates if the service account is automatically mounted to the container.
+| serviceAccount.create                      | boolean | true               | Indicates if the service account should be created.
+| serviceAccount.name                        | string  | ""                 | The name of the service account to use. If not set and create is true, a name is generated using the fullname template
+| service.ports.http                         | int     | 1080               | HTTP port for the service.
+| service.ports.smtp                         | int     | 1025               | SMTP port for the service.
+| service.type                               | string  | ClusterIP          | Service type for the deployment.
+| tolerations                                | list    | []                 | Tolerations for use with node taints.
+| volumes                                    | list    | []                 | Volumes to add to the container.
+| volumeMounts                               | list    | []                 | Specify where volumes are mounted in the container.
+|===
+
+== License & Source Code
+
+The *Búraló Technologies MailCatcher Helm Chart* is made available under the http://www.apache.org/licenses/LICENSE-2.0.html[Apache License] and the source code is hosted on http://github.com[GitHub] at https://github.com/BuraloOSS/mailcatcher.
