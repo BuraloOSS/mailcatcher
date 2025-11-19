@@ -15,5 +15,5 @@ $ helm package chart
 +
 [source,console]
 ----
-$ helm push mailcatcher-0.1.0.tgz oci://registry-1.docker.io/bmatthews68
+$ helm push mailcatcher-0.2.0.tgz oci://registry-1.docker.io/bmatthews68
 ----

@@ -28,18 +28,35 @@ service:
     http: 1080
     smtp: 1025
 
+pathPrefix: "/"
+
 ingress:
   enabled: false
   className: ""
   annotations: {}
-  hosts:
-    - host: ""
-      paths:
-        - path: /
-          pathType: Prefix
+  host: "mail.local"
+  pathType: ImplementationSpecific
   tls: []
 
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+  - name: gateway
+    sectionName: http
+  hostnames:
+  - mail.local
+
 resources: {}
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
 
 autoscaling:
   enabled: false

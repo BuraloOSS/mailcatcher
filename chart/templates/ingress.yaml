@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "helper.fullname" . }}
+  name: {{ include "mailcatcher.fullname" . }}
   labels:
-    {{- include "helper.labels" . | nindent 4 }}
+    {{- include "mailcatcher.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -24,20 +24,14 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ .Values.ingress.host | quote }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            {{- with .pathType }}
-            pathType: {{ . }}
-            {{- end }}
+          - path: {{ .Values.pathPrefix }}
+            pathType: {{ .Values.ingress.pathType }}
             backend:
               service:
-                name: {{ include "helper.fullname" $ }}
+                name: {{ include "mailcatcher.fullname" . }}
                 port:
-                  number: {{ $.Values.service.ports.http }}
-          {{- end }}
-    {{- end }}
+                  number: {{ .Values.service.ports.http }}
 {{- end }}
